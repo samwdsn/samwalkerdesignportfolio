@@ -1,0 +1,951 @@
+:root {
+  --dark: #000000;
+  --light: #ffffff;
+
+  /* --highlight: #ff0606; */
+  /* --highlight: #ffa852; */
+  --highlight: #ff9429;
+  --highlightalt: #ff5b0f;
+
+  /* --highlightalt: #ffa852;
+  --highlight: #ff5b0f; */
+
+  --neutral: #dadada;
+  --neutral2: #aeaeae;
+  --Grey50: #808080;
+
+  --grad01: linear-gradient(
+    200deg,
+    var(--highlight) 25%,
+    var(--highlightalt) 75%
+  );
+}
+
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings:
+    "liga" 1,
+    "calt" 1; /* fix for Chrome */
+}
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, sans-serif;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  /* letter-spacing: -2%; */
+  line-height: 110%;
+  margin: 0 auto;
+  font-family: InterVariable, sans-serif;
+  background-color: var(--light);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-family: inherit;
+  font-size: 54px;
+  /* font-weight: 700; */
+  letter-spacing: -0.02em;
+  line-height: 120%;
+}
+h2 {
+  font-family: inherit;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  line-height: 120%;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.GradHL {
+  display: inline-block;
+  background: var(--grad01);
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.NHighlight {
+  color: var(--Grey50);
+}
+
+#mesh-gradient {
+  width: 100% !important;
+  height: 100% !important;
+
+  bottom: 0;
+  image-rendering: auto;
+
+  position: fixed;
+  z-index: -1;
+}
+
+.NavSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.NavContainer {
+  /* background-color: grey; */
+
+  position: fixed;
+  z-index: 10;
+  /* background-color: rgba(255, 255, 255, 0.2);*/
+  background-color: color-mix(in srgb, var(--light) 20%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border: 1px solid color-mix(in srgb, var(--light) 20%, transparent);
+
+  margin-top: 100px;
+  padding: 15px 30px 15px 30px;
+  border-radius: 100px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 40vw;
+  min-width: 360px;
+  /* height: 100px; */
+}
+
+.NavLink {
+  position: relative;
+  width: 80px;
+}
+.NavItem {
+  position: relative;
+  display: inline-block;
+  padding: 5px;
+
+  font-size: 13px;
+  font-family: inherit;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: transform 0.3s ease;
+
+  color: var(--dark);
+}
+
+.NavItem:hover {
+  transform: scale(1.05);
+}
+
+.NavItem::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--highlight);
+  transition: width 0.5s ease;
+}
+
+.NavItem:hover::after {
+  width: 100%;
+}
+
+.NavButton {
+  background: var(--grad01);
+  outline: solid 1px transparent;
+  padding: 10px 20px;
+  border-radius: 50px;
+  box-shadow:
+    0 0 10px var(--highlight),
+    0 0 30px color-mix(in srgb, var(--highlight) 50%, transparent);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  font-size: 13px;
+  font-family: inherit;
+  text-align: center;
+  cursor: pointer;
+
+  /* We keep the transition for transform, outline, and color */
+  transition: all 0.5s ease;
+
+  /* NEW: Required to keep the hover gradient contained behind the text */
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* NEW: The hover gradient sits invisible on top of the base background */
+.NavButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(200deg, var(--dark) 25%, var(--dark) 75%);
+  z-index: -1; /* Pushes it behind the text */
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.5s ease; /* Smooth fade! */
+}
+
+.NavButton:hover {
+  outline: solid 1px var(--highlight);
+  color: var(--light);
+  transform: scale(1.05);
+  /* Notice we removed the background property from here */
+}
+
+/* NEW: Fade the gradient in on hover */
+.NavButton:hover::before {
+  opacity: 1;
+}
+
+.NavButton::after {
+  content: "\2192";
+  display: inline-block;
+  transition: transform 0.8s ease;
+  font-family: inherit;
+}
+
+.NavButton:hover::after {
+  transform: translateX(5px);
+}
+
+.SplashSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+  padding: 0 5vw;
+  padding-top: 100px;
+
+  height: 70vh;
+
+  /* background-color: grey; */
+}
+
+.SplashText {
+  max-width: 900px;
+  color: var(--dark);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.SkillsRound {
+  text-transform: uppercase;
+  letter-spacing: -1.5%;
+  font-weight: bold;
+  font-size: 26px;
+
+  animation: spin 20s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes spin {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+
+.CirclePath {
+  position: absolute;
+  right: 50%;
+  transform: translate(50%, -25%);
+}
+
+.VideoContainer {
+  background-color: lightgrey;
+  border-radius: 6px;
+  aspect-ratio: 16/ 9;
+  width: 50%;
+  overflow: hidden;
+}
+
+.VideoSplash {
+  width: 100%;
+}
+
+.SplashFoldSection {
+  position: relative;
+  display: flex;
+  justify-content: end;
+  padding: 0 5vw;
+
+  margin-bottom: 200px;
+}
+
+/* Pfol _-__-__-__-__-__-__-__-__-__-__-__-__-__-_ */
+
+.PortfolioSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px 5vw;
+}
+
+.Pfol_ProjectsContainer {
+  display: flex;
+  width: 100%;
+}
+
+.PfolSectionLeft {
+  margin-right: 20px;
+  margin-top: -18px;
+}
+
+.PfolSectionRight {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.Pfol_SectionHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.Pfol_SectionTab {
+  background-color: var(--highlight);
+
+  padding: 10px 20px;
+  border-radius: 50px;
+  gap: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+
+  width: 160px;
+}
+.Pfol_SectionTab::after {
+  content: "\1F852";
+}
+
+.SectionLine {
+  width: 100%;
+  height: 1px;
+
+  background-color: var(--neutral);
+}
+
+.Pfol_ProjectHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 40px 20px;
+
+  border-top: 1px solid var(--neutral);
+
+  position: relative;
+  overflow: hidden;
+
+  color: var(--dark);
+
+  cursor: pointer;
+}
+
+.Pfol_ProjectHeader::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: var(--dark);
+  transition: height 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  z-index: 0;
+}
+
+.Pfol_ProjectHeader:hover::before {
+  height: 100%;
+}
+
+.Pfol_ProjectHeader h2,
+.Pfol_ProjectHeader .ViewProjectButton {
+  position: relative;
+  z-index: 1;
+  transition: color 0.2s ease;
+}
+
+.Pfol_ProjectHeader:hover h2,
+.Pfol_ProjectHeader:hover .ViewProjectButton {
+  color: var(--light);
+}
+
+.ViewProjectButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+
+  transition: all 0.3s ease;
+}
+.Pfol_ProjectHeader:hover .ViewProjectButton:hover {
+  color: var(--highlight);
+}
+
+.ViewProjectButton::before {
+  content: "View Project";
+}
+
+.ViewProjectButton::after {
+  content: "\2193";
+  display: inline-block;
+  transition: transform 0.3s ease;
+  font-family: inherit;
+}
+
+.ViewProjectButton:hover:after {
+  transform: translateY(5px);
+}
+
+.Pfol_ProjectContent {
+  /* background-color: lightgray; */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  width: 100%;
+  /* height: 80dvh; */
+  height: 0;
+}
+
+.PreviewImage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  height: 500px;
+  aspect-ratio: 4 / 5;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  pointer-events: none;
+  background-color: #ccc;
+
+  /* --- NEW: Background Image Formatting --- */
+  background-size: cover; /* Scales the image to fill the box without squishing */
+  background-position: center; /* Centers the focal point of the image */
+  background-repeat: no-repeat; /* Prevents the image from tiling */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.PreviewImage.visible {
+  opacity: 1;
+}
+
+.PreviewImage.force-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* FOOTER _-__-__-__-__-__-__-__-__-__-__-__-__-__-_ */
+
+.FooterSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  height: 60dvh;
+  min-height: 400px;
+  padding: 10vh 5vw;
+
+  /* margin-top: 50px; */
+
+  border-top: 1px solid var(--neutral);
+
+  border-bottom: 10px solid var(--highlight);
+
+  font-size: 12px;
+
+  background-color: var(--light);
+}
+
+.FooterMain {
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
+}
+
+.FooterLeft {
+  display: flex;
+  flex-direction: column;
+
+  gap: 40px;
+
+  width: 50%;
+}
+
+.FooterRight {
+  display: flex;
+  justify-content: end;
+  width: 50%;
+}
+
+.FooterGiT::after {
+  content: " \27F6";
+}
+
+.FooterMCR::before {
+  content: "Manchester";
+}
+
+.SocialWrapper {
+  display: flex;
+  align-items: end;
+
+  gap: 40px;
+}
+
+.SocialLogos {
+  height: auto;
+  width: 26px;
+  fill: var(--dark);
+  /* z-index: 1; */
+
+  transition: 0.3s;
+}
+
+.SocialButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  transition: 0.3s;
+}
+
+.SocialButton:hover {
+  .SocialLogos {
+    fill: var(--highlight);
+    transform: scale(1.2);
+  }
+}
+
+.SendButton {
+  background: var(--grad01);
+  outline: solid 1px transparent;
+  padding: 10px 20px;
+  border-radius: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  /* Keeps the transition for scale, color, and outline */
+  transition: all 0.3s ease;
+
+  /* NEW: Setup for the pseudo-element */
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* NEW: The hover gradient layer */
+.SendButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(200deg, var(--dark) 25%, var(--dark) 75%);
+  z-index: -1; /* Ensures it sits behind the text and icons */
+  opacity: 0; /* Invisible by default */
+  transition: opacity 0.3s ease; /* Matches your 0.3s timing */
+}
+
+.SendButton:hover {
+  outline: solid 1px var(--highlight);
+  color: var(--light);
+  transform: scale(1.05);
+  /* Notice we removed both background properties from here */
+}
+
+/* NEW: Fade in the gradient on hover */
+.SendButton:hover::before {
+  opacity: 1;
+}
+
+.SendButton::after {
+  content: "\21AA";
+  display: inline-block;
+  transition: transform 0.3s ease;
+  font-family: inherit;
+}
+
+.SendButton:hover::after {
+  transform: translateX(5px);
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--neutral2);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  width: 80%;
+}
+
+.FormField {
+  font-family: inherit;
+
+  color: var(--Background-color);
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--neutral2);
+
+  padding: 10px 10px;
+  margin-bottom: 25px;
+  width: 100%;
+
+  transition: all 0.3s;
+}
+
+.FormField:focus {
+  border: none;
+  border-bottom: 1px solid var(--highlight);
+}
+
+textarea {
+  font-family: inherit;
+  min-height: 80px;
+  max-height: 350px;
+  line-height: 150%;
+  resize: vertical;
+
+  border: none;
+  border-bottom: 1px solid var(--neutral2);
+}
+
+.FooterTXT {
+  color: var(--neutral2);
+}
+
+/* ==========================================================================
+    2. LAPTOPS & SMALL DESKTOPS (<= 1280px)
+   ========================================================================== */
+@media (max-width: 1280px) {
+  :root {
+    --grad01: linear-gradient(200deg, #8f52ff 25%, #5f0fff 75%);
+  }
+
+  .PreviewImage {
+    left: 57.5%;
+  }
+}
+
+/* ==========================================================================
+    3. TABLETS - LANDSCAPE / SMALL LAPTOPS (<= 1024px)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  :root {
+    --grad01: linear-gradient(200deg, #78ff52 25%, #0fff57 75%);
+  }
+
+  .SplashText {
+    max-width: 90vw;
+  }
+
+  .Pfol_SectionTab::after {
+    content: "\27F6";
+  }
+
+  .PreviewImage {
+    left: 62.5%;
+  }
+}
+
+/* ==========================================================================
+    4. TABLETS - PORTRAIT (<= 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  :root {
+    --grad01: linear-gradient(200deg, #ff587f 25%, #ff0f4b 75%);
+  }
+
+  h1 {
+    font-size: 38px;
+  }
+  h2 {
+    font-size: 22px;
+  }
+
+  .SplashFoldSection {
+    margin-bottom: 10dvh;
+  }
+
+  .VideoContainer {
+    width: 80%;
+  }
+
+  .Pfol_ProjectsContainer {
+    flex-direction: column;
+  }
+
+  .PfolSectionLeft {
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    padding: 0px 0px;
+  }
+
+  .Pfol_SectionTab::after {
+    content: " \2193";
+  }
+
+  .Pfol_ProjectHeader {
+    padding: 30px 0px;
+  }
+
+  .ViewProjectButton {
+    font-size: 14px;
+  }
+  .ViewProjectButton::before {
+    content: "View";
+  }
+
+  .PreviewImage {
+    top: 55%;
+    left: 60%;
+    height: 180px;
+  }
+
+  .FooterSection {
+    height: auto;
+    align-items: center;
+  }
+
+  .FooterMain {
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+  }
+
+  .FooterLeft {
+    width: 100%;
+    align-items: center;
+  }
+
+  .FooterRight {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .FooterGiT {
+    font-size: 40px;
+  }
+
+  .FooterGiT::after {
+    content: " \2193";
+  }
+
+  .FooterMCR::before {
+    content: "MCR";
+  }
+
+  .SocialButton {
+    align-items: end;
+  }
+
+  form {
+    width: 90%;
+  }
+  .FooterTXT {
+    margin-top: 40px;
+  }
+}
+
+/* ==========================================================================
+    5. MOBILE PHONES (<= 640px)
+   ========================================================================== */
+@media (max-width: 640px) {
+  :root {
+    --grad01: linear-gradient(200deg, #ffa852 25%, #ff5b0f 75%);
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+  h2 {
+    font-size: 18px;
+  }
+}
+
+/* Center the object inside a fullscreen container */
+.playground {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100dvh;
+  background-color: #111;
+}
+
+/* Base style: Small Red Square */
+.object {
+  width: 100px;
+  height: 100px;
+  background-color: #ff4757; /* Red */
+  border-radius: 8px;
+}
+
+/* ==========================================================================
+    BENTOOOOOOO
+   ========================================================================== */
+
+/* --- BASE GRID --- */
+.BentoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+
+  /* THE FIX: Hardcode to 80dvh so the parent container just masks/reveals it */
+  height: 80dvh;
+  padding: 20px;
+}
+
+/* --- THE BLOCKS --- */
+.BentoItem {
+  background-color: #f4f4f5;
+  border-radius: 6px;
+  padding: 0;
+
+  /* Keeps the zooming image locked inside the rounded corners */
+  overflow: hidden;
+  position: relative;
+
+  /* (Removed the old box hover transition from here) */
+}
+
+/* --- THE IMAGES (With new hover logic) --- */
+.BentoItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  /* NEW: Super smooth, easing transition for the zoom effect */
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Prevents slight browser rendering stutters during the scale */
+  will-change: transform;
+}
+
+/* NEW: The image scales up inside the box on hover */
+.BentoItem:hover img {
+  transform: scale(1.08);
+}
+
+/* --- DESKTOP SPANS --- */
+.BentoItem.Feature {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.BentoItem.Wide {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+/* --- TABLET BREAKPOINT (<= 1024px) --- */
+@media (max-width: 1024px) {
+  .BentoGrid {
+    /* 2 columns, 4 rows to divide the 80dvh space */
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+  }
+
+  .BentoItem.Feature {
+    /* Item 1 (MAIN): Takes up the top half (Rows 1 & 2), full width */
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+  }
+
+  .BentoItem.Wide {
+    /* Item 4: Forced to the bottom-left, spanning down (Rows 3 & 4) */
+    grid-column: 1 / 2;
+    grid-row: 3 / 5;
+  }
+
+  /* 
+    Items 2 & 3 (Standards) do not need any rules! 
+    Because the top and bottom-left are taken, CSS automatically 
+    drops them into the right side, stacked on top of each other.
+  */
+}
+
+/* --- MOBILE BREAKPOINT (<= 768px) --- */
+@media (max-width: 768px) {
+  .BentoGrid {
+    /* Keeps the exact same layout as tablet, just shrinks the gaps for phones */
+    gap: 12px;
+    padding: 12px;
+  }
+}

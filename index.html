@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SWD26</title>
+    <link rel="stylesheet" href="main.css" />
+
+    <!-- Lenis -->
+    <script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js"></script>
+
+    <!-- GSAP Core (3.15) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"
+      defer
+    ></script>
+
+    <!-- GSAP ScrollTrigger (3.15) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"
+      defer
+    ></script>
+
+    <!-- GSAP SplitText (3.15) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/SplitText.min.js"
+      defer
+    ></script>
+
+    <script src="main.js" defer></script>
+
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  </head>
+
+  <body>
+    <section class="NavSection">
+      <div class="NavContainer">
+        <a href="#splash-section" class="NavLink"
+          ><span class="NavItem">Home</span></a
+        >
+        <a href="#portfolio-section" class="NavLink"
+          ><span class="NavItem">Work</span></a
+        >
+        <a href="#contactfooter-section" class="NavButton">Contact</a>
+      </div>
+    </section>
+
+    <section id="splash-section" class="SplashSection">
+      <div class="SplashText">
+        <h1>
+          Experienced
+          <span class="GradHLx NHighlight">senior graphic designer.</span>
+          <span class="nowrap">I create </span>engaging and strategic designs
+          for ambitious, global brands.
+        </h1>
+      </div>
+    </section>
+
+    <!-- <canvas id="mesh-gradient" class="MeshGrad"></canvas> -->
+
+    <section class="SplashFoldSection">
+      <div class="VideoContainer">
+        <video class="VideoSplash" autoplay loop muted playsinline>
+          <source src="Videos/SWD_AI_PortfolioVideo.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </section>
+
+    <section id="portfolio-section" class="PortfolioSection">
+      <div class="Pfol_ProjectsContainer">
+        <div class="PfolSectionLeft">
+          <button class="Pfol_SectionTab">Branding</button>
+        </div>
+        <div class="PfolSectionRight">
+          <div class="Pfol_Project">
+            <div
+              class="Pfol_ProjectHeader"
+              data-image="images/Portfolio/SizzleSoc/Branding_Sizzle_01.jpg"
+              data-color="#FAECE7"
+            >
+              <h2>"Sizzle Society"</h2>
+              <button class="ViewProjectButton"></button>
+            </div>
+            <div class="Pfol_ProjectContent">
+              <section class="BentoGrid">
+                <div class="BentoItem Feature">
+                  <img
+                    src="images/Portfolio/SizzleSoc/3d_Sizzle_02.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Wide">
+                  <img
+                    src="images/Portfolio/SizzleSoc/Branding_Sizzle_02.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/SizzleSoc/3d_Sizzle_01.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/SizzleSoc/Branding_Sizzle_03.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="Pfol_Project">
+            <div
+              class="Pfol_ProjectHeader"
+              data-image="images/Portfolio/SmargStudio/SpicyBrand_00.jpg"
+              data-color="#FAECE7"
+            >
+              <h2>"Spicy Marg Studio"</h2>
+              <button class="ViewProjectButton"></button>
+            </div>
+            <div class="Pfol_ProjectContent">
+              <section class="BentoGrid">
+                <div class="BentoItem Feature">
+                  <img
+                    src="images/Portfolio/SmargStudio/SpicyBrand_02.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Wide">
+                  <img
+                    src="images/Portfolio/SmargStudio/Smarg_Base.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/SmargStudio/SpicyBrand_03.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/SmargStudio/SpicyBrand_01.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="Pfol_Project">
+            <div
+              class="Pfol_ProjectHeader"
+              data-image="images/Portfolio/ChemInd/Brand_Chemind_01.jpg"
+              data-color="#FAECE7"
+            >
+              <h2>"Chemistry + Industry"</h2>
+              <button class="ViewProjectButton"></button>
+            </div>
+            <div class="Pfol_ProjectContent">
+              <section class="BentoGrid">
+                <div class="BentoItem Feature">
+                  <img
+                    src="images/Portfolio/ChemInd/Chemind_03.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Wide">
+                  <img
+                    src="images/Portfolio/ChemInd/Chemind_Brand.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/ChemInd/Chemind_Brand2.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/ChemInd/Brand_Chemind_01.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="Pfol_Project">
+            <div
+              class="Pfol_ProjectHeader"
+              data-image="images/Portfolio/Manuka/Brand_Manuka_04.jpg"
+              data-color="#FAECE7"
+            >
+              <h2>"Manuka Skin"</h2>
+              <button class="ViewProjectButton"></button>
+            </div>
+            <div class="Pfol_ProjectContent">
+              <section class="BentoGrid">
+                <div class="BentoItem Feature">
+                  <img
+                    src="images/Portfolio/Manuka/Brand_Manuka_02.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Wide">
+                  <img
+                    src="images/Portfolio/Manuka/Brand_Manuka_03.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/Manuka/Brand_Manuka_01.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/Manuka/Brand_Manuka_04.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="Pfol_ProjectsContainer">
+        <div class="PfolSectionLeft">
+          <button class="Pfol_SectionTab">Web Design</button>
+        </div>
+        <div class="PfolSectionRight">
+          <div class="Pfol_Project">
+            <div
+              class="Pfol_ProjectHeader"
+              data-image="images/Portfolio/SmargStudio/SpicyBrand_04.jpg"
+              data-color="#FAECE7"
+            >
+              <h2>"Spicy Marg Studio"</h2>
+              <button class="ViewProjectButton"></button>
+            </div>
+            <div class="Pfol_ProjectContent">
+              <section class="BentoGrid">
+                <div class="BentoItem Feature">
+                  <img
+                    src="images/Portfolio/SmargStudio/Smarg_Web_01.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Wide">
+                  <img
+                    src="images/Portfolio/SmargStudio/Smarg_Web_02.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/SmargStudio/Smarg_Web_04.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/SmargStudio/Smarg_Web_03.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="Pfol_Project">
+            <div
+              class="Pfol_ProjectHeader"
+              data-image="images/Portfolio/FXN/FXN_02.jpg"
+              data-color="#FAECE7"
+            >
+              <h2>"FX Notes"</h2>
+              <button class="ViewProjectButton"></button>
+            </div>
+            <div class="Pfol_ProjectContent">
+              <section class="BentoGrid">
+                <div class="BentoItem Feature">
+                  <img
+                    src="images/Portfolio/FXN/FXN_04.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Wide">
+                  <img
+                    src="images/Portfolio/FXN/FXN_02.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/FXN/FXN_01.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/FXN/FXN_03.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="Pfol_Project">
+            <div
+              class="Pfol_ProjectHeader"
+              data-image="images/Portfolio/UGCA/UGCA_01.jpg"
+              data-color="#FAECE7"
+            >
+              <h2>"The UGC Agency"</h2>
+              <button class="ViewProjectButton"></button>
+            </div>
+            <div class="Pfol_ProjectContent">
+              <section class="BentoGrid">
+                <div class="BentoItem Feature">
+                  <img
+                    src="images/Portfolio/UGCA/UGCA_02.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Wide">
+                  <img
+                    src="images/Portfolio/UGCA/UGCA_04.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/UGCA/UGCA_03.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/UGCA/UGCA_01.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="Pfol_Project">
+            <div
+              class="Pfol_ProjectHeader"
+              data-image="images/Portfolio/ANGELS/Angels_01.jpg"
+              data-color="#FAECE7"
+            >
+              <h2>"Angels MGMT"</h2>
+              <button class="ViewProjectButton"></button>
+            </div>
+            <div class="Pfol_ProjectContent">
+              <section class="BentoGrid">
+                <div class="BentoItem Feature">
+                  <img
+                    src="images/Portfolio/ANGELS/Angels_04.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Wide">
+                  <img
+                    src="images/Portfolio/ANGELS/Angels_02.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/ANGELS/Angels_03.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/ANGELS/Angels_01.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="Pfol_ProjectsContainer">
+        <div class="PfolSectionLeft">
+          <button class="Pfol_SectionTab">Other</button>
+        </div>
+        <div class="PfolSectionRight">
+          <div class="Pfol_Project">
+            <div
+              class="Pfol_ProjectHeader"
+              data-image="images/Portfolio/T4/T4_01.jpg"
+              data-color="#FAECE7"
+            >
+              <h2>"Tea4You"</h2>
+              <button class="ViewProjectButton"></button>
+            </div>
+            <div class="Pfol_ProjectContent">
+              <section class="BentoGrid">
+                <div class="BentoItem Feature">
+                  <img
+                    src="images/Portfolio/T4/T4_05.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Wide">
+                  <img
+                    src="images/Portfolio/T4/T4_03.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/T4/T4_02.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/T4/T4_04.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="Pfol_Project">
+            <div
+              class="Pfol_ProjectHeader"
+              data-image="images/Portfolio/AceFace/AF_3D.jpg"
+              data-color="#FAECE7"
+            >
+              <h2>"Ace Face"</h2>
+              <button class="ViewProjectButton"></button>
+            </div>
+            <div class="Pfol_ProjectContent">
+              <section class="BentoGrid">
+                <div class="BentoItem Feature">
+                  <img
+                    src="images/Portfolio/AceFace/AF_3D.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Wide">
+                  <img
+                    src="images/Portfolio/AceFace/AF_Booklet.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/AceFace/Social_AceFace_01.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/AceFace/Range02_P.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="Pfol_Project">
+            <div
+              class="Pfol_ProjectHeader"
+              data-image="images/Portfolio/Citrus/3D_CitrusTwist_01.jpg"
+              data-color="#FAECE7"
+            >
+              <h2>"Citrus Twist"</h2>
+              <button class="ViewProjectButton"></button>
+            </div>
+            <div class="Pfol_ProjectContent">
+              <section class="BentoGrid">
+                <div class="BentoItem Feature">
+                  <img
+                    src="images/Portfolio/Citrus/CitrusTwistHero.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Wide">
+                  <img
+                    src="images/Portfolio/Citrus/ct-phone.png"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/Citrus/3D_CitrusTwist_02.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+
+                <div class="BentoItem Standard">
+                  <img
+                    src="images/Portfolio/Citrus/Fresh.jpg"
+                    alt="Project detail"
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview IMG -->
+      <div class="PreviewImage"></div>
+    </section>
+
+    <section id="contactfooter-section" class="FooterSection">
+      <div class="FooterMain">
+        <div class="FooterLeft">
+          <h1><span class="GradHLx FooterGiT">Get in touch</span></h1>
+          <div class="SocialWrapper">
+            <a href="https://instagram.com/samwdesign" target="_blank">
+              <button class="SocialButton">
+                <svg class="SocialLogos" viewBox="0 0 85 85">
+                  <use xlink:href="SVG/InstagramLogo.svg#Layer_2"></use>
+                </svg>
+              </button>
+            </a>
+
+            <a href="https://www.linkedin.com/in/samwdesign/" target="_blank">
+              <button class="SocialButton">
+                <svg class="SocialLogos" viewBox="0 0 80 80">
+                  <use xlink:href="SVG/LinkedInLogo.svg#Layer_2"></use>
+                </svg>
+              </button>
+            </a>
+
+            <a href="mailto:samwdsn@gmail.com" target="_blank">
+              <button class="SocialButton">
+                <svg class="SocialLogos" viewBox="0 0 80 65">
+                  <use xlink:href="SVG/Email.svg#Layer_2"></use>
+                </svg>
+              </button>
+            </a>
+
+            <div class="SocialButton">
+              <svg class="SocialLogos" viewBox="0 0 80 80">
+                <use xlink:href="SVG/Location.svg#Layer_2"></use>
+              </svg>
+              <span class="FooterMCR">, UK</span>
+            </div>
+          </div>
+        </div>
+        <div class="FooterRight">
+          <form
+            target="_blank"
+            action="https://formsubmit.co/samwdsn@gmail.com"
+            method="POST"
+          >
+            <input
+              name="name"
+              type="text"
+              class="FormField"
+              placeholder="Name"
+              required
+            />
+            <input
+              name="email"
+              type="text"
+              class="FormField"
+              placeholder="Email"
+              required
+            />
+            <textarea
+              name="text"
+              class="FormField"
+              placeholder="Message"
+            ></textarea>
+            <button class="SendButton" type="submit" required>Submit</button>
+          </form>
+        </div>
+      </div>
+
+      <p class="FooterTXT">© Sam Walker | All Rights Reserved | 2026</p>
+    </section>
+    <script src="gradient-engine.js"></script>
+  </body>
+</html>
