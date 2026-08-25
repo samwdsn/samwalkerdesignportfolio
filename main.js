@@ -1,33 +1,56 @@
-// Register GSAP plugins
+/* ==========================================================================
+   Setup GSAP & Lenis
+   ========================================================================== */
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
-// Create Lenis instance
 const lenis = new Lenis();
 lenis.on("scroll", ScrollTrigger.update);
-
-// Use GSAP's ticker instead of requestAnimationFrame
-gsap.ticker.add((time) => {
-  lenis.raf(time * 1000);
-});
-
-// Used for breakpoints
-const mm = gsap.matchMedia();
-
-// Prevent lag smoothing from interfering
+gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
-/* ==========================================================================
-    Split text anims
-   ========================================================================== */
+const mm = gsap.matchMedia();
+ScrollTrigger.config({ ignoreMobileResize: true });
 
+// FOUC Prevention: Unhide global elements once GSAP is initialized
+gsap.set(".VideoContainer", { visibility: "visible" });
+
+/* ==========================================================================
+   Input Type Detector (Fixes Sticky Mobile Hovers)
+   ========================================================================== */
+function watchForHover() {
+  let lastTouchTime = 0;
+
+  function enableHover() {
+    // If a touch just happened, ignore the fake mousemove the browser fires
+    if (new Date() - lastTouchTime < 500) return;
+    document.body.classList.remove("is-touch");
+  }
+
+  function disableHover() {
+    document.body.classList.add("is-touch");
+    lastTouchTime = new Date();
+  }
+
+  document.addEventListener("touchstart", disableHover, true);
+  document.addEventListener("mousemove", enableHover, true);
+}
+watchForHover();
+
+/* ==========================================================================
+   Splash Text Animation
+   ========================================================================== */
 document.addEventListener("DOMContentLoaded", () => {
   const targetText = document.querySelector(".SplashText h1");
   let split;
+  let windowWidth = window.innerWidth;
+  let resizeTimer;
 
   function createTextAnimation() {
-    if (split) {
-      split.revert();
-    }
+    if (split) split.revert();
+
+    // FOUC Prevention: Make the text visible exactly as GSAP takes control
+    gsap.set(".SplashText", { visibility: "visible" });
+
     split = SplitText.create(targetText, { type: "lines" });
 
     gsap.from(split.lines, {
@@ -44,34 +67,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  document.fonts.ready.then(() => {
-    createTextAnimation();
-  });
+  document.fonts.ready.then(createTextAnimation);
 
-  let windowWidth = window.innerWidth;
-  let resizeTimer;
-
+  // Debounce resize to prevent animation stuttering
   window.addEventListener("resize", () => {
     if (window.innerWidth !== windowWidth) {
       windowWidth = window.innerWidth;
-
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        createTextAnimation();
-      }, 250);
+      resizeTimer = setTimeout(createTextAnimation, 250);
     }
   });
 });
 
 /* ==========================================================================
-    Video Container Grow
+   Video Container Grow
    ========================================================================== */
-
-// Desktop (> 768px)
 mm.add("(min-width: 769px)", () => {
   gsap.fromTo(
     ".VideoContainer",
-    { width: "60%" }, // CHANGE THIS to match your base CSS width
+    { width: "60%" },
     {
       width: "70%",
       ease: "none",
@@ -86,11 +100,10 @@ mm.add("(min-width: 769px)", () => {
   );
 });
 
-// Mobile / Tablet (<= 768px)
 mm.add("(max-width: 768px)", () => {
   gsap.fromTo(
     ".VideoContainer",
-    { width: "90%" }, // CHANGE THIS to match your base mobile CSS width
+    { width: "90%" },
     {
       width: "100%",
       ease: "none",
@@ -100,165 +113,36 @@ mm.add("(max-width: 768px)", () => {
         end: "bottom 50%",
         scrub: 1.5,
         invalidateOnRefresh: true,
-        // markers: true,
       },
     },
   );
 });
 
-// Force ScrollTrigger to lock dimensions on page load frame
 ScrollTrigger.refresh();
 
 /* ==========================================================================
-    Portfolio Controls
+   Portfolio Preview Logic
    ========================================================================== */
-
-// const portfolioSection = document.querySelector(".PortfolioSection");
-// const projects = document.querySelectorAll(".Pfol_ProjectHeader");
-// const preview = document.querySelector(".PreviewImage");
-
-// // --- DESKTOP: Hover Effect (> 1024px) ---
-// mm.add("(min-width: 1025px)", () => {
-//   const handleMouseEnter = (e) => {
-//     const p = e.currentTarget;
-
-//     // Set both Color and Image
-//     preview.style.backgroundColor = p.dataset.color;
-//     preview.style.backgroundImage = `url(${p.dataset.image})`;
-
-//     preview.classList.add("visible");
-//   };
-
-//   const handleMouseLeave = () => {
-//     preview.classList.remove("visible");
-//   };
-
-//   projects.forEach((p) => {
-//     p.addEventListener("mouseenter", handleMouseEnter);
-//     p.addEventListener("mouseleave", handleMouseLeave);
-//   });
-
-//   return () => {
-//     projects.forEach((p) => {
-//       p.removeEventListener("mouseenter", handleMouseEnter);
-//       p.removeEventListener("mouseleave", handleMouseLeave);
-//     });
-//     preview.classList.remove("visible");
-//   };
-// });
-
-// // --- MOBILE/TABLET: Scroll Spy Effect (<= 1024px) ---
-// mm.add("(max-width: 1024px)", () => {
-//   // 1. MASTER TRIGGER: Show/Hide preview
-//   ScrollTrigger.create({
-//     trigger: portfolioSection,
-//     // Triggers when the TOP of the section reaches the CENTER of the screen
-//     start: "top 50%%",
-//     // Ends when the BOTTOM of the section reaches the CENTER of the screen
-//     end: "bottom 55%",
-//     toggleClass: { targets: preview, className: "visible" },
-//     // markers: true,
-//   });
-
-//   // 2. CHILD TRIGGERS: Swap color/image for each project
-//   projects.forEach((p) => {
-//     ScrollTrigger.create({
-//       trigger: p,
-//       start: "top 55%",
-//       end: "bottom 55%",
-
-//       onEnter: () => {
-//         preview.style.backgroundColor = p.dataset.color;
-//         preview.style.backgroundImage = `url(${p.dataset.image})`;
-//       },
-//       onEnterBack: () => {
-//         preview.style.backgroundColor = p.dataset.color;
-//         preview.style.backgroundImage = `url(${p.dataset.image})`;
-//       },
-//     });
-//   });
-// });
-// // --- ACCORDION STATE LOGIC ---
-// let isPreviewDisabled = false;
-// let activeProject = null;
-
-// // NEW: Target the entire header div instead of just the button
-// const headers = document.querySelectorAll(".Pfol_ProjectHeader");
-
-// headers.forEach((header) => {
-//   header.addEventListener("click", (e) => {
-//     const currentProject = e.target.closest(".Pfol_Project");
-//     const currentContent = currentProject.querySelector(".Pfol_ProjectContent");
-
-//     // SCENARIO 1: Clicking the currently open project (Close it)
-//     if (currentProject === activeProject) {
-//       currentProject.classList.remove("is-open");
-//       activeProject = null;
-
-//       gsap.to(currentContent, {
-//         height: 0,
-//         duration: 0.4,
-//         ease: "power2.out",
-//         onComplete: () => {
-//           ScrollTrigger.refresh();
-//           isPreviewDisabled = false;
-//           preview.classList.remove("force-hidden");
-//         },
-//       });
-//       return;
-//     }
-
-//     // SCENARIO 2: Opening a new project
-//     if (activeProject) {
-//       const activeContent = activeProject.querySelector(".Pfol_ProjectContent");
-//       activeProject.classList.remove("is-open");
-//       gsap.to(activeContent, { height: 0, duration: 0.4, ease: "power2.out" });
-//     }
-
-//     // Assign the new project
-//     activeProject = currentProject;
-//     currentProject.classList.add("is-open");
-
-//     // Instantly kill the preview image and apply the CSS brick wall
-//     isPreviewDisabled = true;
-//     preview.classList.remove("visible");
-//     preview.classList.add("force-hidden");
-
-//     // Animate the new content open
-//     gsap.to(currentContent, {
-//       height: "80dvh",
-//       duration: 0.4,
-//       ease: "power2.out",
-//       onComplete: () => ScrollTrigger.refresh(),
-//     });
-//   });
-// });
-
 const portfolioSection = document.querySelector(".PortfolioSection");
 const projects = document.querySelectorAll(".Pfol_ProjectHeader");
 const preview = document.querySelector(".PreviewImage");
 
-// --- STATE TRACKERS ---
-let isPreviewDisabled = false; // Accordion kill-switch
-let activeHover = null; // Stores the project currently being hovered
-let activeScroll = null; // Stores the project currently in the center of the screen
-let isPortfolioInView = false; // Is the main section on screen?
+let isPreviewDisabled = false;
+let activeHover = null;
+let activeScroll = null;
+let isPortfolioInView = false;
+let isScrollSpyLocked = false; // Locks the preview image during layout shifts
 
-// --- THE MASTER UPDATE FUNCTION ---
-// This handles the priority: Hover always beats Scroll
 function updatePreview() {
-  if (isPreviewDisabled) return; // Stop updates if a project is opened
+  if (isPreviewDisabled) return;
 
-  // 1. Determine Priority (Hover wins if it exists)
   const targetProject = activeHover || activeScroll;
 
-  // 2. Set the Image and Color
   if (targetProject) {
-    preview.style.backgroundColor = targetProject.dataset.color;
     preview.style.backgroundImage = `url(${targetProject.dataset.image})`;
   }
 
-  // 3. Handle Visibility (Show if hovering, OR if scrolling inside the section)
+  // Show if hovering, or if actively scrolling inside the section
   if (activeHover || (isPortfolioInView && activeScroll)) {
     preview.classList.add("visible");
   } else {
@@ -266,73 +150,73 @@ function updatePreview() {
   }
 }
 
-// --- HOVER LOGIC (All Devices) ---
-projects.forEach((p) => {
-  p.addEventListener("mouseenter", () => {
-    activeHover = p;
-    updatePreview();
+// Hover Event Listeners (Only active on devices with a real mouse)
+if (window.matchMedia("(hover: hover)").matches) {
+  projects.forEach((p) => {
+    p.addEventListener("mouseenter", () => {
+      activeHover = p;
+      updatePreview();
+    });
+    p.addEventListener("mouseleave", () => {
+      activeHover = null;
+      updatePreview();
+    });
   });
-  p.addEventListener("mouseleave", () => {
-    activeHover = null;
-    updatePreview();
-  });
-});
+}
 
-// --- SCROLL SPY LOGIC (All Devices) ---
-// 1. MASTER TRIGGER: Tracks if the user is in the portfolio zone
+// Scroll Event Listeners
 ScrollTrigger.create({
   trigger: portfolioSection,
   start: "top 50%",
   end: "bottom 65%",
-  // markers: "true",
-  onEnter: () => {
-    isPortfolioInView = true;
-    updatePreview();
-  },
-  onLeave: () => {
-    isPortfolioInView = false;
-    updatePreview();
-  },
-  onEnterBack: () => {
-    isPortfolioInView = true;
-    updatePreview();
-  },
-  onLeaveBack: () => {
-    isPortfolioInView = false;
+  onToggle: (self) => {
+    isPortfolioInView = self.isActive;
     updatePreview();
   },
 });
 
-// 2. CHILD TRIGGERS: Tracks which project is in the center of the screen
 projects.forEach((p) => {
   ScrollTrigger.create({
     trigger: p,
     start: "top 55%",
     end: "bottom 55%",
-    onEnter: () => {
-      activeScroll = p;
-      updatePreview();
-    },
-    onEnterBack: () => {
-      activeScroll = p;
-      updatePreview();
+    onToggle: (self) => {
+      // Only update the preview if not actively locked by the accordion shrinking
+      if (self.isActive && !isScrollSpyLocked) {
+        activeScroll = p;
+        updatePreview();
+      }
     },
   });
 });
 
-// --- ACCORDION STATE LOGIC ---
+/* ==========================================================================
+   Portfolio Accordion
+   ========================================================================== */
 let activeProject = null;
-const headers = document.querySelectorAll(".Pfol_ProjectHeader");
 
-headers.forEach((header) => {
+projects.forEach((header) => {
   header.addEventListener("click", (e) => {
     const currentProject = e.target.closest(".Pfol_Project");
+    const currentHeader = currentProject.querySelector(".Pfol_ProjectHeader");
     const currentContent = currentProject.querySelector(".Pfol_ProjectContent");
 
-    // SCENARIO 1: Clicking the currently open project (Close it)
+    // SCENARIO 1: Close current project
     if (currentProject === activeProject) {
       currentProject.classList.remove("is-open");
       activeProject = null;
+
+      // Force the browser to drop the CSS focus state (prevents sticky hovers)
+      currentHeader.blur();
+
+      // Lock the scroll spy from firing during the layout shrink
+      isScrollSpyLocked = true;
+
+      // Force the preview to show the project we just closed immediately
+      activeScroll = currentHeader;
+      isPreviewDisabled = false;
+      preview.classList.remove("force-hidden");
+      updatePreview();
 
       gsap.to(currentContent, {
         height: 0,
@@ -340,33 +224,40 @@ headers.forEach((header) => {
         ease: "power2.out",
         onComplete: () => {
           ScrollTrigger.refresh();
-          isPreviewDisabled = false;
-          preview.classList.remove("force-hidden");
-          updatePreview(); // Re-evaluate state when closing!
+
+          // Unlock as soon as the user physically touches or scrolls again
+          const unlockScrollSpy = () => {
+            isScrollSpyLocked = false;
+            window.removeEventListener("touchstart", unlockScrollSpy);
+            window.removeEventListener("wheel", unlockScrollSpy);
+          };
+          window.addEventListener("touchstart", unlockScrollSpy, {
+            passive: true,
+          });
+          window.addEventListener("wheel", unlockScrollSpy, { passive: true });
         },
       });
       return;
     }
 
-    // SCENARIO 2: Opening a new project
+    // SCENARIO 2: Open new project (closes old one first if necessary)
     if (activeProject) {
       const activeContent = activeProject.querySelector(".Pfol_ProjectContent");
       activeProject.classList.remove("is-open");
       gsap.to(activeContent, { height: 0, duration: 0.4, ease: "power2.out" });
     }
 
-    // Assign the new project
     activeProject = currentProject;
     currentProject.classList.add("is-open");
 
-    // Instantly kill the preview image and apply the CSS brick wall
+    // Hide preview while accordion animates
     isPreviewDisabled = true;
     preview.classList.remove("visible");
     preview.classList.add("force-hidden");
 
-    // Animate the new content open
+    // Expand content (using svh to avoid mobile layout shifts)
     gsap.to(currentContent, {
-      height: "80dvh",
+      height: "80svh",
       duration: 0.4,
       ease: "power2.out",
       onComplete: () => ScrollTrigger.refresh(),
@@ -374,46 +265,48 @@ headers.forEach((header) => {
   });
 });
 
-const followerPreview = document.querySelector(".PreviewImage");
-
-// --- INTERACTION SETTINGS ---
-// 0.5 = Moves exactly 50% of the distance towards the mouse (Half-way attracted)
-// 1.0 = Tries to track the mouse exactly 0.2 = Barely moves from the center
+/* ==========================================================================
+   Mouse Follower Physics
+   ========================================================================== */
 const attractionStrength = 0.3;
-
-// How "heavy" or delayed the image feels.
-// 0.05 = Very slow and smooth (high lag) 0.15 = Snappy and fast
 const followSpeed = 0.08;
 
-// --- INTERNAL PHYSICS VARIABLES ---
-let targetX = 0;
-let targetY = 0;
-let currentX = 0;
-let currentY = 0;
+let targetX = 0,
+  targetY = 0,
+  currentX = 0,
+  currentY = 0;
 
-// 1. Track the mouse position
 window.addEventListener("mousemove", (e) => {
-  // Calculate how far the cursor is from the exact center of the screen
-  const xDistanceFromCenter = e.clientX - window.innerWidth / 2;
-  const yDistanceFromCenter = e.clientY - window.innerHeight / 2;
+  if (window.innerWidth <= 1024) return; // Disable physics math on mobile
 
-  // Apply your 50% strength limit to the target destination
-  targetX = xDistanceFromCenter * attractionStrength;
-  targetY = yDistanceFromCenter * attractionStrength;
+  targetX = (e.clientX - window.innerWidth / 2) * attractionStrength;
+  targetY = (e.clientY - window.innerHeight / 2) * attractionStrength;
 });
 
-// 2. The Animation Loop
 function animateFollower() {
-  // Lerp formula: smoothly glides the current position towards the target position
-  currentX += (targetX - currentX) * followSpeed;
-  currentY += (targetY - currentY) * followSpeed;
-
-  // Apply the movement while preserving your original CSS centering!
-  followerPreview.style.transform = `translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px))`;
-
-  // Loop infinitely at 60fps
+  if (window.innerWidth > 1024) {
+    currentX += (targetX - currentX) * followSpeed;
+    currentY += (targetY - currentY) * followSpeed;
+    preview.style.transform = `translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px))`;
+  } else {
+    // Hard reset to absolute center on mobile
+    currentX = targetX = currentY = targetY = 0;
+    preview.style.transform = `translate(-50%, -50%)`;
+  }
   requestAnimationFrame(animateFollower);
 }
 
-// Start the engine
 animateFollower();
+
+/* ==========================================================================
+   Background Image Preloader
+   ========================================================================== */
+window.addEventListener("load", () => {
+  projects.forEach((header) => {
+    const mediaUrl = header.dataset.image;
+    if (mediaUrl && !mediaUrl.endsWith(".mp4")) {
+      const preloadImg = new Image();
+      preloadImg.src = mediaUrl;
+    }
+  });
+});
