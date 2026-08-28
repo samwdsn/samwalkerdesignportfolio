@@ -298,7 +298,7 @@ body:not(.is-touch) .NavButton:hover::after {
 }
 
 .VideoContainer {
-  background-color: lightgrey;
+  /* background-color: lightgrey; */
   border-radius: 6px;
   aspect-ratio: 16/ 9;
   width: 50%;
