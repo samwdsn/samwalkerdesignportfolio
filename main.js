@@ -80,8 +80,23 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ==========================================================================
-   Video Container Grow
+   Video Container Load + Grow
    ========================================================================== */
+gsap.from(".VideoContainer", {
+  y: 80, // Starts 80px pushed down
+  opacity: 0, // Starts invisible
+  duration: 2.5, // Nice and smooth 1.2s fade
+  delay: 0.3,
+  ease: "power3.out",
+  scrollTrigger: {
+    trigger: ".VideoContainer",
+    start: "top 85%", // Triggers when the top of the video hits 85% down the screen
+    toggleActions: "play none none reverse", // Fades back out if they scroll up past it
+  },
+});
+
+
+
 mm.add("(min-width: 769px)", () => {
   gsap.fromTo(
     ".VideoContainer",
